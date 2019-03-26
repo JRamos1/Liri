@@ -4,11 +4,9 @@ var fs = require("fs");
 
 var Spotify= require("node-spotify-api")
 
-var axios = require("axios")
+// var axios = require("axios")
 
 var moment = require("moment")
-
-var arg= process.argv
 
 var command = process.argv[2]
 
@@ -43,7 +41,7 @@ function userInput(command, value){
 userInput(command,value)
 
 function spotifyThis(){
-    console.log("Searching for " + value);
+    console.log("Searching for " +  value);
     if(!value){
       value="Waterfalls"
     }
@@ -67,7 +65,7 @@ function spotifyThis(){
           var movie=JSON.parse(body)
 
           if(!error && response.statusCode === 200){
-              console.log("\nTtitle: " + movie.Title + "\nCast: " + movie.Cast + "\nRelease Year: " + movie.Year + "\nIMDB Rating: " + movie.imdbRating +  "\nCountry: " + movie.Country + "\nLanguage: " + movie.Language + "\nPlot: " + movie.Plot + "\n")
+              console.log("\nTitle: " + movie.Title + "\nCast: " + movie.Cast + "\nRelease Year: " + movie.Year + "\nIMDB Rating: " + movie.imdbRating +  "\nCountry: " + movie.Country + "\nLanguage: " + movie.Language + "\nPlot: " + movie.Plot + "\n")
               
           }
           else{
@@ -85,6 +83,34 @@ function doThis(){
         value=dataArr[1]
 
         userInput(command,value)
+    })
+}
+
+function concertThis(){
+    if(!value){
+        value="Queen"
+    }
+
+    var queryUrl = "https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp";
+
+    console.log(queryUrl);
+
+
+    request(queryUrl,function(err,response,body){
+        if(!err && response.statusCode === 200){
+
+        var concerts = JSON.parse(body) 
+        for(var i = 0; i<concerts.length; i++){
+            
+            console.log("\n\nArtist: " + concerts[i].lineup[0] + "\nVenue: " + concerts[i].venue.name + "\nVenue Location: " + concerts[i].venue.city + "\n")
+
+            var concertDate = moment(concerts[i].datetime).format("MM/DD/YYYY hh:00 A")
+            console.log("Concert Date: " + concertDate + "\n-------------------")
+        }
+
+        
+    
+        }  
     })
 }
 
