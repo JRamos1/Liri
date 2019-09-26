@@ -107,10 +107,7 @@ function concertThis(){
             var concertDate = moment(concerts[i].datetime).format("MM/DD/YYYY hh:00 A")
             console.log("Concert Date: " + concertDate + "\n-------------------")
         }
-
-        
-    
-        }  
+       }  
     })
 }
 
